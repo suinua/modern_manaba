@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Modern Manaba",
+  "description": "",
+  "version": "0.1.0",
+  "icons": {
+    "16": "icon_16.png",
+    "48": "icon_48.png",
+    "128": "icon_128.png"
+  },
+  "action": {},
+  "content_scripts": [{
+    "matches": ["https://room.chuo-u.ac.jp/*"],
+    "js": [
+      "main.js"
+    ],
+    "css": [
+      "main.css"
+    ],
+    "run_at": "document_end",
+    "all_frames": true
+  }],
+  "permissions": [
+    "tabs"
+  ]
+}

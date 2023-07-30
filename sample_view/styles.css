@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.m-app {
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.m-main {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.m-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.flex-content {
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+.m-fixed-content {
+    box-sizing: border-box;
+}
+
+
+.m-sidebar {
+    width: 20%;
+    box-sizing: border-box;
+    border: 8px solid chocolate;
+}
+
+.m-calendar {
+    border-collapse: separate;
+    border-spacing: 5px;
+    width: 100%;
+}
+
+.m-calendar th, .m-calendar td {
+    border-radius: 5px;
+    text-align: center;
+}
+
+.m-calendar th {
+    width: 2vw;
+}
+
+.m-period-start-time {
+    font-size: 8px;
+    color: #a7a7a7;
+}
+
+.m-period {
+    background: #d5d5d5;
+    border-radius: 12px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.m-period-finish-time {
+    font-size: 8px;
+    color: #a7a7a7;
+}
+
+.m-course-list td {
+    position: relative;
+    background: #b1d3ff96;
+
+    padding: 20px 10px 0 10px;
+    height: 5vw;
+    width: 20vw;
+    word-break: break-all;
+}
+
+.m-course-list {
+}
+
+.m-course {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 4rem;
+}
+
+.m-course-room {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    background: #2424f1;
+    border-radius: 5px;
+
+    color: white;
+}
+
+.m-week-name td {
+    background: #e8e8e8;
+}
