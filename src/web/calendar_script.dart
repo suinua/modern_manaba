@@ -4,7 +4,7 @@ import '../models/calendar.dart';
 import '../models/course.dart';
 
 class CalendarWeb {
-  static Calendar execute() {
+  static Future<Calendar> execute() async {
     var calendarElement = querySelector('.stdlist>tbody')!;
 
     List<List<Course>> courseList = [[], [], [], [], [], []];
@@ -26,7 +26,7 @@ class CalendarWeb {
           courseList[dayCount].add(Course(
               name: courseTdElement.text!,
               time: time,
-              roomNumber: _getRoomNumber(courseNumber),
+              roomNumber: await _getRoomNumber(courseNumber),
               number: courseNumber,
               url: 'https://room.chuo-u.ac.jp/ct/course_$courseNumber',
               syllabus: 'https://room.chuo-u.ac.jp/ct/syllabus_$courseNumber'));
@@ -56,32 +56,24 @@ class CalendarWeb {
         saturday: CalendarDay.saturday(saturdayCourseList));
   }
 
-  static String _getRoomNumber(String courseNumber) {
+  static Future<String> _getRoomNumber(String courseNumber) async {
     var data = window.localStorage.cast();
-    if (!data.keys.contains(courseNumber)) {
-      window.open('https://room.chuo-u.ac.jp/ct/syllabus_$courseNumber',
-          'setRoomNumber$courseNumber');
+    if (data.keys.contains(courseNumber)) {
+      return window.localStorage[courseNumber]!;
+    } else {
+      var res = await window.fetch('https://room.chuo-u.ac.jp/ct/syllabus_$courseNumber');
+      var text = await res.text();
       data = window.localStorage.cast();
-    }
 
-    return data[courseNumber] ?? '';
-  }
-
-  static void setRoomNumber() {
-    var courseNumber =
-        window.location.href.replaceFirst(RegExp('(.*)syllabus_'), '');
-    if (window.name!.contains('setRoomNumber')) {
-      var roomNumber = document.body!.innerHtml!
-          .replaceAll(RegExp('\n'), '')
+      var roomNumber = text!
+          .replaceAll(RegExp('\r?\n|\r'), '')
           .replaceAll(RegExp('(.*)キャンパス・'), '')
           .replaceAll(RegExp('履修条件・関連科目等(.*)'), '')
           .replaceAll(RegExp('※(.*)'), '')
           .split(' ')
           .first;
       window.localStorage[courseNumber] = roomNumber.toString();
-
-      print(window.name);
-      window.close();
+      return roomNumber;
     }
   }
 }

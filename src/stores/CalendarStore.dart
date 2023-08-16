@@ -6,8 +6,12 @@ class CalendarStore {
 
   CalendarStore._internal(this._calendar);
 
-  factory CalendarStore() {
-    _instance ??= CalendarStore._internal(CalendarWeb.execute());
+  static Future<void> _init() async {
+    _instance ??= CalendarStore._internal(await CalendarWeb.execute());
+  }
+
+  static Future<CalendarStore> instance() async {
+    await _init();
     return _instance!;
   }
 
