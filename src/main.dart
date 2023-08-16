@@ -1,11 +1,16 @@
 import 'dart:html';
 
 import 'stores/CalendarStore.dart';
+import 'web/calendar_script.dart';
 import 'web/view_models/calendar_view.dart';
 
 void main() {
-  querySelector('html')?.children.add(DivElement()
-    ..innerHtml = '''
+  if (window.location.href.contains('syllabus')) {
+    CalendarWeb.setRoomNumber();
+  } else {
+    window.name = 'modern_manaba';
+    querySelector('html')?.children.add(DivElement()
+      ..innerHtml = '''
     <div class="m-app">
       <div class="m-main">
         <div class="m-sidebar">サイドバー</div>
@@ -17,7 +22,8 @@ void main() {
       </div>
     </div>''');
 
-  cleanUp();
+    cleanUp();
+  }
 }
 
 void cleanUp() {

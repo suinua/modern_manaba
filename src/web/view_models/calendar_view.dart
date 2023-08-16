@@ -71,10 +71,16 @@ class CalendarView {
 
 class _CourseView {
   static String html(Course course) {
-    return '''
-<td>
-   <div class="m-course">${course.name}</div>
-   <div class="m-course-room">${course.room}</div>
+    if (course is FreeTime) {
+      return '''
+<td  class="m-free-course">
 </td>''';
+    } else {
+      return '''
+<td  class="m-course">
+   <div class="m-course-name">${course.name}</div>
+   <div class="m-course-room">${course.roomNumber}</div>
+</td>''';
+    }
   }
 }

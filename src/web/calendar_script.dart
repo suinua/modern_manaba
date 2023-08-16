@@ -12,13 +12,28 @@ class CalendarWeb {
     var dayCount = 0;
     var time = 1;
 
-    for (var row in calendarElement.children) {
-      if (row.text!.contains('月火水木金土')) continue;
-      for (var course in row.children) {
-        if (course.className == 'period') continue;
-        courseList[dayCount].add(course.text == null
-            ? FreeTime(time)
-            : Course(name: course.text!, time: time, room: '0'));
+    for (var rowElement in calendarElement.children) {
+      if (rowElement.text!.contains('月火水木金土')) continue;
+      for (var courseTdElement in rowElement.children) {
+        if (courseTdElement.className == 'period') continue;
+        if (courseTdElement.classes.contains('course-cell')) {
+          var courseNumber =
+              (courseTdElement.querySelector('a') as AnchorElement)
+                      .href
+                      ?.replaceFirst(RegExp('(.*)course_'), '') ??
+                  '';
+
+          courseList[dayCount].add(Course(
+              name: courseTdElement.text!,
+              time: time,
+              roomNumber: _getRoomNumber(courseNumber),
+              number: courseNumber,
+              url: 'https://room.chuo-u.ac.jp/ct/course_$courseNumber',
+              syllabus: 'https://room.chuo-u.ac.jp/ct/syllabus_$courseNumber'));
+        } else {
+          courseList[dayCount].add(FreeTime(time));
+        }
+
         dayCount++;
       }
       time++;
@@ -33,12 +48,40 @@ class CalendarWeb {
     List<Course> saturdayCourseList = courseList[5];
 
     return Calendar(
-      monday: CalendarDay(name:'monday',courseList:mondayCourseList),
-      tuesday: CalendarDay(name:'tuesday',courseList:tuesdayCourseList),
-      wednesday: CalendarDay(name:'wednesday',courseList:wednesdayCourseList),
-      thursday: CalendarDay(name:'thursday',courseList:thursdayCourseList),
-      friday: CalendarDay(name:'friday',courseList:fridayCourseList),
-      saturday: CalendarDay(name:'saturday',courseList:saturdayCourseList)
-    );
+        monday: CalendarDay.monday(mondayCourseList),
+        tuesday: CalendarDay.tuesday(tuesdayCourseList),
+        wednesday: CalendarDay.wednesday(wednesdayCourseList),
+        thursday: CalendarDay.thursday(thursdayCourseList),
+        friday: CalendarDay.friday(fridayCourseList),
+        saturday: CalendarDay.saturday(saturdayCourseList));
+  }
+
+  static String _getRoomNumber(String courseNumber) {
+    var data = window.localStorage.cast();
+    if (!data.keys.contains(courseNumber)) {
+      window.open('https://room.chuo-u.ac.jp/ct/syllabus_$courseNumber',
+          'setRoomNumber$courseNumber');
+      data = window.localStorage.cast();
+    }
+
+    return data[courseNumber] ?? '';
+  }
+
+  static void setRoomNumber() {
+    var courseNumber =
+        window.location.href.replaceFirst(RegExp('(.*)syllabus_'), '');
+    if (window.name!.contains('setRoomNumber')) {
+      var roomNumber = document.body!.innerHtml!
+          .replaceAll(RegExp('\n'), '')
+          .replaceAll(RegExp('(.*)キャンパス・'), '')
+          .replaceAll(RegExp('履修条件・関連科目等(.*)'), '')
+          .replaceAll(RegExp('※(.*)'), '')
+          .split(' ')
+          .first;
+      window.localStorage[courseNumber] = roomNumber.toString();
+
+      print(window.name);
+      window.close();
+    }
   }
 }

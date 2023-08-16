@@ -9,13 +9,12 @@ class Calendar {
   final CalendarDay saturday;
 
   List<Course> allCourses() {
-    return
-      monday.courseList +
-          tuesday.courseList +
-          wednesday.courseList +
-          thursday.courseList +
-          friday.courseList +
-          saturday.courseList;
+    return monday.courseList +
+        tuesday.courseList +
+        wednesday.courseList +
+        thursday.courseList +
+        friday.courseList +
+        saturday.courseList;
   }
 
   List<Course> getCourses(int time) {
@@ -23,12 +22,24 @@ class Calendar {
   }
 
   Calendar(
-      {required this.monday, required this.tuesday, required this.wednesday, required this.thursday, required this.friday, required this.saturday});
+      {required this.monday,
+      required this.tuesday,
+      required this.wednesday,
+      required this.thursday,
+      required this.friday,
+      required this.saturday});
 }
 
 class CalendarDay {
   final String name;
   final List<Course> courseList;
+
+  CalendarDay.monday(this.courseList) : name = 'monday';
+  CalendarDay.tuesday(this.courseList) : name = 'tuesday';
+  CalendarDay.wednesday(this.courseList) : name = 'wednesday';
+  CalendarDay.thursday(this.courseList) : name = 'thursday';
+  CalendarDay.friday(this.courseList) : name = 'friday';
+  CalendarDay.saturday(this.courseList) : name = 'saturday';
 
   CalendarDay({required this.name, required this.courseList});
 }
