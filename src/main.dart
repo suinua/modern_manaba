@@ -1,7 +1,8 @@
 import 'dart:html';
 
-import 'stores/CalendarStore.dart';
-import 'web/calendar_script.dart';
+import 'services/course_news_service.dart';
+import 'stores/calendar_store.dart';
+import 'stores/course_news_store.dart';
 import 'web/view_models/calendar_view.dart';
 
 void main() async {
@@ -22,6 +23,12 @@ void main() async {
         </div>
       </div>
     </div>''');
+
+      CourseNewsStore.instance().then((instance) {
+        querySelector('.m-sidebar')!.innerHtml = '''
+        
+        ''';
+      });
 
       cleanUp();
     });

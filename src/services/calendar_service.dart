@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:html';
 
 import '../models/calendar.dart';
 import '../models/course.dart';
 
-class CalendarWeb {
-  static Future<Calendar> execute() async {
+class CalendarService {
+  static Future<Calendar> scriptCalendarData() async {
     var calendarElement = querySelector('.stdlist>tbody')!;
 
     List<List<Course>> courseList = [[], [], [], [], [], []];
@@ -19,8 +20,8 @@ class CalendarWeb {
         if (courseTdElement.classes.contains('course-cell')) {
           var courseNumber =
               (courseTdElement.querySelector('a') as AnchorElement)
-                      .href
-                      ?.replaceFirst(RegExp('(.*)course_'), '') ??
+                  .href
+                  ?.replaceFirst(RegExp('(.*)course_'), '') ??
                   '';
 
           courseList[dayCount].add(Course(
@@ -58,12 +59,15 @@ class CalendarWeb {
 
   static Future<String> _getRoomNumber(String courseNumber) async {
     var data = window.localStorage.cast();
-    if (data.keys.contains(courseNumber)) {
-      return window.localStorage[courseNumber]!;
+    if (!data.keys.contains('course_room_numbers')) window.localStorage['course_room_numbers'] = '{}';
+
+    var courseRoomNumbersMap = jsonDecode(window.localStorage['course_room_numbers']!);
+
+    if (courseRoomNumbersMap.keys.contains(courseNumber)) {
+      return courseRoomNumbersMap[courseNumber]!;
     } else {
       var res = await window.fetch('https://room.chuo-u.ac.jp/ct/syllabus_$courseNumber');
       var text = await res.text();
-      data = window.localStorage.cast();
 
       var roomNumber = text!
           .replaceAll(RegExp('\r?\n|\r'), '')
@@ -72,7 +76,8 @@ class CalendarWeb {
           .replaceAll(RegExp('※(.*)'), '')
           .split(' ')
           .first;
-      window.localStorage[courseNumber] = roomNumber.toString();
+      courseRoomNumbersMap[courseNumber] = roomNumber;
+      window.localStorage['course_room_numbers'] = jsonEncode(courseRoomNumbersMap);
       return roomNumber;
     }
   }

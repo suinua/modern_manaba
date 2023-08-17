@@ -1,5 +1,5 @@
 import '../models/calendar.dart';
-import '../web/calendar_script.dart';
+import '../services/calendar_service.dart';
 
 class CalendarStore {
   static CalendarStore? _instance;
@@ -7,7 +7,7 @@ class CalendarStore {
   CalendarStore._internal(this._calendar);
 
   static Future<void> _init() async {
-    _instance ??= CalendarStore._internal(await CalendarWeb.execute());
+    _instance ??= CalendarStore._internal(await CalendarService.scriptCalendarData());
   }
 
   static Future<CalendarStore> instance() async {
