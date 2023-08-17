@@ -25,8 +25,8 @@ class CourseNewsService {
         var text = await res.text();
         var html = html_parser.parse(text!);
 
-        var title = html.querySelector('.msg-title')!.innerHtml;
-        var body = html.querySelector('.msg-body')!.innerHtml;
+        var title = html.querySelector('.msg-title')!.text;
+        var body = html.querySelector('.msg-body')!.text;
         var read = !newsElement.classes.contains('unread');
 
         courseNewsList.add(CourseNews(

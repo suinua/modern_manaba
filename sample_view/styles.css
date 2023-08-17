@@ -22,22 +22,6 @@
     flex-grow: 1;
 }
 
-.flex-content {
-    flex-grow: 1;
-    box-sizing: border-box;
-}
-
-.m-fixed-content {
-    box-sizing: border-box;
-}
-
-
-.m-sidebar {
-    width: 20%;
-    box-sizing: border-box;
-    border: 8px solid chocolate;
-}
-
 .m-calendar {
     border-collapse: separate;
     border-spacing: 5px;
@@ -72,7 +56,6 @@
 
 .m-course-list td {
     position: relative;
-    background: #b1d3ff96;
 
     padding: 20px 10px 0 10px;
     height: 5vw;
@@ -84,6 +67,14 @@
 }
 
 .m-course {
+    background: #b1d3ff96;
+}
+
+.m-free-course {
+    background: rgba(206, 225, 255, 0.36);
+}
+
+.m-course-name {
     position: absolute;
     top: 0;
     left: 0;
@@ -91,6 +82,7 @@
     right: 0;
     height: 4rem;
 }
+
 
 .m-course-room {
     position: absolute;
@@ -106,4 +98,45 @@
 
 .m-week-name td {
     background: #e8e8e8;
+}
+
+.m-sidebar {
+    width: 30%;
+    box-sizing: border-box;
+}
+
+.m-news-bind-list {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.m-news-bind {
+    position: relative;
+    border: 1px solid #000;
+    width: 100%;
+}
+
+.m-news-course-name {
+    font-weight: bold;
+}
+.m-last-news-title {
+    color: #a8a8a8;
+}
+.m-news-unread-count {
+    position: absolute;
+    top: 10%;
+    right: -10px;
+    transform: translate(-50%, 0%);
+    -webkit-transform: translate(-50%, 0%);
+    -ms-transform: translate(-50%,0%);
+
+    background: #ec4646;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    color: #fff;
+    font-size: 22px;
+    text-align: center;
+    line-height: 40px;
 }

@@ -19,4 +19,12 @@ class CourseNewsStore {
   final List<CourseNews> _newsList;
 
   List<CourseNews> get newsList => _newsList;
+
+  List<CourseNews> getByCourseNumber(String courseNumber) {
+    return _newsList.where((news) => news.courseNumber == courseNumber).toList();
+  }
+
+  List<CourseNews> getUnreadByCourseNumber(String courseNumber) {
+    return _newsList.where((news) => news.courseNumber == courseNumber && !news.read).toList();
+  }
 }
