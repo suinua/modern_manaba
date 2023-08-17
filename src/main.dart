@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import 'stores/calendar_store.dart';
+import 'stores/course_news_store.dart';
 import 'view/calendar_view.dart';
 import 'view/sidebar.dart';
 
@@ -27,6 +28,7 @@ void main() async {
 
 
     SideBar.setEvent();
+    CourseNewsStore().updateAllNews();
 
     cleanUp();
   }
