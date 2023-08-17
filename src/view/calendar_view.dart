@@ -1,7 +1,5 @@
-import 'dart:html';
-
-import '../../models/calendar.dart';
-import '../../models/course.dart';
+import '../models/calendar.dart';
+import '../models/course.dart';
 
 class CalendarView {
   static String html(Calendar calendar) {

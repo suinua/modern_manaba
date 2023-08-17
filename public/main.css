@@ -140,3 +140,30 @@
     text-align: center;
     line-height: 40px;
 }
+
+.m-news-list {
+    border: solid red 1px;
+    height: 100%;
+    white-space: nowrap;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.m-news {
+    margin: 10px;
+    text-align: center;
+    background: rgba(222, 222, 222, 0.57);
+    border-radius: 10px;
+}
+
+.m-news-list::-webkit-scrollbar {
+    display:none;
+}
+.m-news-title{
+    font-weight: bold;
+}
+
+.hide {
+    display: none;
+}
