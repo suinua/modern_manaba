@@ -17,13 +17,20 @@ class SideBar {
         newBindHtml += '''
         <div class="m-news-thumbnail" id="m-news-thumbnail-${course.number}">
           <div class="m-news-course-name">${course.name}</div>
-          <div class="m-last-news-title">${newsList.isEmpty ? '' : newsList.first.title}</div>
           <div class="m-news-unread-count">${CourseNewsStore().getUnreadByCourseNumber(course.number).length}</div>
+          <div class="m-last-news-title">${newsList.isEmpty ? '' : newsList.first.title}</div>
         </div>
         ''';
 
         newsListHtml +=
-            '''<div class="m-news-list hide" id="m-news-list-${course.number}">''';
+            '''
+            <div class="m-news-list-menu hide" id="m-news-list-menu-${course.number}">
+            　<div class="m-news-list-header">
+            　　<div class="m-news-list-close-button" id="m-news-list-close-button-${course.number}"></div>
+            　 <div class="m-news-list-header-name">${course.name}</div>
+            　</div>
+            <div class="m-news-list">
+            ''';
 
         for (var news in newsList) {
           newsListHtml += '''
@@ -34,7 +41,7 @@ class SideBar {
         ''';
         }
 
-        newsListHtml += '''</div>''';
+        newsListHtml += '''</div></div>''';
       }
     });
 
@@ -60,7 +67,7 @@ class SideBar {
               .getUnreadByCourseNumber(news.courseNumber)
               .length.toString();
 
-        querySelector('#m-news-list-${news.courseNumber}')!
+        querySelector('#m-news-list-menu-${news.courseNumber}')!
             .children
             .add(Element.html('''
             <div class="m-news">
@@ -74,9 +81,23 @@ class SideBar {
       bindElement.onClick.listen((event) {
         var courseNumber = bindElement.id.replaceFirst(RegExp('(.*)-'), '');
         querySelector('.m-news-thumbnail-list')!.style.display = 'none';
-        querySelector('#m-news-list-$courseNumber')!.classes.remove('hide');
-        querySelector('#m-news-list-$courseNumber')!.classes.add('show');
+        querySelector('#m-news-list-menu-$courseNumber')!.classes.remove('hide');
+        querySelector('#m-news-list-menu-$courseNumber')!.classes.add('show');
       });
     }
+
+    CalendarStore.instance().then((instance){
+      var courseList = instance.calendar.allCourses();
+      for (var course in courseList) {
+        if (course is! FreeTime) {
+          print('#m-news-list-close-button-${course.number}');
+          querySelector('#m-news-list-close-button-${course.number}')!.onClick.listen((event) {
+            querySelector('.m-news-thumbnail-list')!.style.display = '';
+            querySelector('#m-news-list-menu-${course.number}')!.classes.add('hide');
+            querySelector('#m-news-list-menu-${course.number}')!.classes.remove('show');
+          });
+        }
+      }
+    });
   }
 }

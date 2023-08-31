@@ -118,6 +118,10 @@
 }
 
 .m-news-course-name {
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 30px;
+    padding-top: 0;
     font-weight: bold;
 }
 .m-last-news-title {
@@ -125,20 +129,14 @@
 }
 .m-news-unread-count {
     position: absolute;
-    top: 10%;
-    right: -10px;
+    top: 4%;
+    right: 10px;
     transform: translate(-50%, 0%);
     -webkit-transform: translate(-50%, 0%);
     -ms-transform: translate(-50%,0%);
 
-    background: #ec4646;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    color: #fff;
-    font-size: 22px;
-    text-align: center;
-    line-height: 40px;
+    font-weight: bold;
+    color: #ff3333;
 }
 
 .m-news-list {
@@ -147,6 +145,36 @@
     overflow: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+.m-news-list-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.m-news-list-close-button {
+    display: block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+}
+
+.m-news-list-close-button::before, .m-news-list-close-button::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background: #333;
+}
+
+.m-news-list-close-button::before {
+    transform: translate(-50%,-50%) rotate(45deg);
+}
+
+.m-news-list-close-button::after {
+    transform: translate(-50%,-50%) rotate(-45deg);
 }
 
 .m-news {

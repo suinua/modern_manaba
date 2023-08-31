@@ -11,7 +11,7 @@ class CalendarStore {
   }
 
   static Future<CalendarStore> instance() async {
-    await _init();
+    if (_instance == null) await _init();
     return _instance!;
   }
 
